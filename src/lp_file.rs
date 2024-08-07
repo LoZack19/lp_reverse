@@ -48,9 +48,7 @@ pub mod var_replace {
                 } else {
                     format!("{}[{}]", &self.name, num - &self.range.start)
                 }
-            });
-
-            line
+            }).to_string()
         }
     }
 }
