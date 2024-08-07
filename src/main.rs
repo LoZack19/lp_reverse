@@ -1,3 +1,6 @@
+use lp_reverse::lp_file::LPFile;
+
 fn main() {
-    println!("Hello, world!");
+    let lp = LPFile::new("./data/part000.lp");
+    lp.print();
 }
