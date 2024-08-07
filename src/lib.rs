@@ -1,5 +1,10 @@
-use std::{ffi::OsStr, fs, io, path::{Path, PathBuf}};
+use anyhow::Result;
 use rand::Rng;
+use std::{
+    ffi::OsStr,
+    fs,
+    path::{Path, PathBuf},
+};
 
 pub mod lp_file;
 
@@ -23,13 +28,10 @@ pub fn generate_unique_name(base_path: &Path) -> PathBuf {
     }
 }
 
-fn mv(from: &Path, into: &Path) -> Result<(), io::Error> {
+fn mv(from: &Path, into: &Path) -> Result<()> {
     let unique_name = generate_unique_name(&into);
     fs::rename(&from, &unique_name)
-        .and_then(|_| {
-            fs::remove_file(&into)
-        })
-        .and_then(|_| {
-            fs::rename(unique_name, &into)
-        })
+        .and_then(|_| fs::remove_file(&into))
+        .and_then(|_| fs::rename(unique_name, &into))?;
+    Ok(())
 }
